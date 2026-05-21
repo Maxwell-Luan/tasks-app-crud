@@ -1,9 +1,9 @@
 "use client";
 
 import { useActionState, useState } from "react";
-import Button from "@/src/components/Button";
-import InputForm from "./InputForm";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
+import Button from "@/src/components/Button";
+import FormInput from "./FormInput";
 
 type Props = {
   action: (_: string, formData: FormData) => Promise<string>
@@ -18,9 +18,9 @@ export default function FormLogin({action} : Props) {
  
   return (
     <>
-      <form className="flex flex-col gap-y-6" action={formAction}>
+      <form className="flex flex-col gap-y-6 mb-4" action={formAction}>
 
-        <InputForm
+        <FormInput
           label="E-mail"
           name="email"
           type="text"
@@ -28,7 +28,7 @@ export default function FormLogin({action} : Props) {
           onChange={(e) => setEmail(e.target.value)}
         />
 
-        <InputForm
+        <FormInput
           label="Senha"
           name="password"
           type={showPassword ? "text" : "password"}
@@ -38,7 +38,7 @@ export default function FormLogin({action} : Props) {
           <div onClick={() => setShowPassword(!showPassword)}>
             {showPassword ? <FaRegEye /> : <FaRegEyeSlash />}
           </div>
-        </InputForm>
+        </FormInput>
         {!isPending && errorMessage && <p className="text-center text-red-600 font-bold">{errorMessage}</p>}
         <Button type="submit" text="Login" />
       </form>

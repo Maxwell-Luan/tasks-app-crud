@@ -7,7 +7,7 @@ type Props = {
     children?: React.ReactNode;
 }
 
-export default function InputForm({label, name, type, value, onChange, children}: Props){
+export default function FormInput({label, name, type, value, onChange, children}: Props){
 
   return (
     <fieldset className="flex flex-col">

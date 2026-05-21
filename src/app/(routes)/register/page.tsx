@@ -3,12 +3,14 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import FormRegister from "@/src/components/FormRegister";
+import { checkInvalidEmail, checkInvalidPassword } from "@/src/lib/utils";
+import { COOKIE } from "@/src/constants/constants";
 
 const PAGE_TITLE = "Cadastro";
 
 export const metadata: Metadata = {
-  title: PAGE_TITLE
-}
+  title: PAGE_TITLE,
+};
 
 export default function Cadastro() {
   async function handleRegister(_: string, formData: FormData) {
@@ -18,15 +20,15 @@ export default function Cadastro() {
     const email = formData.get("email")?.toString();
     const password = formData.get("password")?.toString();
 
-    if(!username || !email || !password){
+    if (!username || !email || !password) {
       return "Preencha todos os campos!";
     }
 
-    if(!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)){
-      return "Email inválido!"
+    if (checkInvalidEmail(email)) {
+      return "Email inválido!";
     }
 
-    if(password.length < 6){
+    if (checkInvalidPassword(password)) {
       return "A senha deve ter no mínimo 6 caracteres!";
     }
 
@@ -37,7 +39,7 @@ export default function Cadastro() {
         password,
       };
 
-      const response = await fetch("http://localhost:3001/auth/register", {
+      const response = await fetch(`${process.env.BACKEND_URL}/auth/register`, {
         method: "POST",
         body: JSON.stringify(body),
         headers: {
@@ -48,19 +50,12 @@ export default function Cadastro() {
       const register = await response.json();
 
       console.log(register);
-      if(!register.token){
+      if (!register.token) {
         return register.message;
-      }
-      else{
+      } else {
         const cookieStore = await cookies();
-        cookieStore.set("token", register.token, {
-          httpOnly: true,
-          secure: true,
-          path: "/",
-          maxAge: 60 * 60 * 24
-        });
+        cookieStore.set("token", register.token,  COOKIE);
       }
-      
     } catch {
       console.error("handleRegister failed");
       return "Erro no Cadastro!";
@@ -68,14 +63,12 @@ export default function Cadastro() {
     redirect("/tasks");
   }
   return (
-    <div className="min-w-100 flex flex-col px-8 py-12 gap-y-4px bg-bg-form rounded-3xl shadow-xl">
+    <>
       <h1 className="text-4xl mb-4 text-center font-bold">{PAGE_TITLE}</h1>
-
       <FormRegister action={handleRegister} />
-
       <Link className="text-center underline" href="/login">
         Já tenho cadastro
       </Link>
-    </div>
+    </>
   );
 }

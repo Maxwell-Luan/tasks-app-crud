@@ -2,7 +2,7 @@
 
 import { useActionState, useState } from "react";
 import Button from "@/src/components/Button";
-import InputForm from "./InputForm";
+import InputForm from "./FormInput";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 
 type Props = {
@@ -19,7 +19,7 @@ export default function FormRegister({action}: Props) {
  
   return (
     <>
-      <form className="flex flex-col gap-y-6" action={formAction}>
+      <form className="flex flex-col gap-y-6 mb-4" action={formAction}>
         <InputForm
           label="Usuário"
           name="username"
