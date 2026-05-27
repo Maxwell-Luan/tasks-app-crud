@@ -2,9 +2,9 @@ import { Metadata } from "next";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import FormRegister from "@/src/components/FormRegister";
 import { checkInvalidEmail, checkInvalidPassword } from "@/src/lib/utils";
 import { COOKIE } from "@/src/constants/constants";
+import FormRegister from "@/src/components/forms/FormRegister";
 
 const PAGE_TITLE = "Cadastro";
 

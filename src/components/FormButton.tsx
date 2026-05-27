@@ -3,7 +3,7 @@ type Props = {
     type?: "submit" | "button" | "reset";
 }
 
-export default function Button({text, type = "submit"}: Props){
+export default function FormButton({text, type = "submit"}: Props){
     return(
         <button
         type={type}

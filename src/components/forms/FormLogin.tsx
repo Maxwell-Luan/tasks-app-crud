@@ -1,17 +1,16 @@
 "use client";
 
 import { useActionState, useState } from "react";
-import Button from "@/src/components/Button";
-import InputForm from "./FormInput";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
+import FormInput from "../FormInput";
+import FormButton from "@/src/components/FormButton";
 
 type Props = {
   action: (_: string, formData: FormData) => Promise<string>
 }
 
-export default function FormRegister({action}: Props) {
+export default function FormLogin({action} : Props) {
 
-  const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, formAction, isPending] = useActionState(action, "");
@@ -20,15 +19,8 @@ export default function FormRegister({action}: Props) {
   return (
     <>
       <form className="flex flex-col gap-y-6 mb-4" action={formAction}>
-        <InputForm
-          label="Usuário"
-          name="username"
-          type="text"
-          value={userName}
-          onChange={(e) => setUserName(e.target.value)}
-        />
 
-        <InputForm
+        <FormInput
           label="E-mail"
           name="email"
           type="text"
@@ -36,7 +28,7 @@ export default function FormRegister({action}: Props) {
           onChange={(e) => setEmail(e.target.value)}
         />
 
-        <InputForm
+        <FormInput
           label="Senha"
           name="password"
           type={showPassword ? "text" : "password"}
@@ -46,9 +38,9 @@ export default function FormRegister({action}: Props) {
           <div onClick={() => setShowPassword(!showPassword)}>
             {showPassword ? <FaRegEye /> : <FaRegEyeSlash />}
           </div>
-        </InputForm>
+        </FormInput>
         {!isPending && errorMessage && <p className="text-center text-red-600 font-bold">{errorMessage}</p>}
-        <Button type="submit" text="Cadastrar" />
+        <FormButton type="submit" text="Login" />
       </form>
     </>
   );

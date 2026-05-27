@@ -1,4 +1,4 @@
-import FormLogin from "@/src/components/FormLogin";
+import FormLogin from "@/src/components/forms/FormLogin";
 import { COOKIE } from "@/src/constants/constants";
 import { checkInvalidEmail, checkInvalidPassword } from "@/src/lib/utils";
 import { Metadata } from "next";
@@ -45,15 +45,15 @@ export default function Login() {
         },
       });
 
-      const register = await response.json();
+      const login = await response.json();
 
-      console.log(register);
-      if (!register.token) {
-        return register.message;
+      console.log(login);
+      if (!login.token) {
+        return login.message;
       } else {
         const cookieStore = await cookies();
 
-        cookieStore.set("token", register.token, COOKIE);
+        cookieStore.set("token", login.token, COOKIE);
       }
     } catch {
       console.error("handleLogin failed");
